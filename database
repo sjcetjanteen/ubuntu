@@ -1,26 +1,29 @@
-sudo mysql -u root -proot123 bwapp <<EOF
 CREATE TABLE IF NOT EXISTS users (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  login varchar(100) NOT NULL,
-  password varchar(100) NOT NULL,
-  email varchar(100) DEFAULT NULL,
-  secret varchar(100) DEFAULT NULL,
-  admin tinyint(1) DEFAULT 0,
-  PRIMARY KEY (id)
+id int(11) NOT NULL AUTO_INCREMENT,
+login varchar(100) NOT NULL,
+password varchar(100) NOT NULL,
+email varchar(100) DEFAULT NULL,
+secret varchar(100) DEFAULT NULL,
+admin tinyint(1) DEFAULT 0,
+PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS blog (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  owner varchar(100) NOT NULL,
-  entry varchar(500) NOT NULL,
-  date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
+id int(11) NOT NULL AUTO_INCREMENT,
+owner varchar(100) NOT NULL,
+entry varchar(500) NOT NULL,
+date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS heroes (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  hero varchar(100) NOT NULL,
-  votes int(11) NOT NULL,
-  PRIMARY KEY (id)
+id int(11) NOT NULL AUTO_INCREMENT,
+hero varchar(100) NOT NULL,
+votes int(11) NOT NULL,
+PRIMARY KEY (id)
 );
+
+INSERT INTO users (id, login, password, email, secret, admin) VALUES
+(1, 'bee', '6885858488e1d55d74df53cbfd5faecf', 'bee@mailinator.com', 'BEE', 1),
+(2, 'hero', '12345678', 'hero@mailinator.com', 'HERO', 0);
 EOF
