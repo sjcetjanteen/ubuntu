@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mongodb:
-    image: mongo:6.0
+    image: mongo:4.4.18
     container_name: mongodb
     restart: unless-stopped
     volumes:
@@ -11,8 +11,9 @@ services:
       - graylog-net
 
   opensearch:
-    image: opensearchproject/opensearch:2.11.0
+    image: opensearchproject/opensearch:1.3.14
     container_name: opensearch
+    hostname: elasticsearch
     restart: unless-stopped
     environment:
       - cluster.name=graylog-cluster
@@ -34,7 +35,7 @@ services:
       - graylog-net
 
   graylog:
-    image: graylog/graylog:5.2
+    image: graylog/graylog:4.3
     container_name: graylog
     restart: unless-stopped
     depends_on:
@@ -44,17 +45,12 @@ services:
     environment:
       - GRAYLOG_NODE_ID_FILE=/usr/share/graylog/data/data/node-id
       - GRAYLOG_PASSWORD_SECRET=some_very_long_random_secret_string_change_me_12345
-      - GRAYLOG_ROOT_PASSWORD_SHA256=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+      - GRAYLOG_MONGODB_URI=mongodb://mongodb:27017/graylog
+      - GRAYLOG_ELASTICSEARCH_HOST=http://elasticsearch:9200
+      - GRAYLOG_ROOT_PASSWORD_SHA2=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
       - GRAYLOG_HTTP_BIND_ADDRESS=0.0.0.0:9000
-      - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:9000/
-    ports:
-      - "9000:9000"
-      - "1514:1514/tcp"
-      - "1514:1514/udp"
-      - "5140:5140/tcp"
-      - "5140:5140/udp"
-    networks:
-      - graylog-net
+      - GRAYLOG_HTTP_EXTERNAL_URI=http://192.168.56.107:9000/
+    network_mode: host
 
 volumes:
   mongo_data:
